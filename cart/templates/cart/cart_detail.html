@@ -1,0 +1,57 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="cart-container">
+    <h2>Your Shopping Cart</h2>
+
+    {% if cart.items.all %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart.items.all %}
+                <tr>
+                    <td>
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" width="50">
+                        <p>{{ item.product.name }}</p>
+                    </td>
+                    <td>${{ item.product.price }}</td>
+                    <td>
+                        <form method="post" action="{% url 'cart:update_cart' item.id %}">
+                            {% csrf_token %}
+                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
+                            <button type="submit">Update</button>
+                        </form>
+                    </td>
+                    <td>${{ item.total_price }}</td>
+                    <td>
+                        <form method="post" action="{% url 'cart:remove_from_cart' item.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="cart-total">
+            <h3>Total: ${{ cart.total_price }}</h3>
+        </div>
+         <!-- Order creation button -->
+    <a href="{% url 'orders:orders_create' %}">
+        <button class="btn btn-success">Proceed to Checkout</button>
+    </a>
+    {% else %}
+        <p>Your cart is empty.</p>
+    {% endif %}
+</div>
+{% endblock %}

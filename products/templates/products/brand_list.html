@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Brand List Template -->
+<div class="container mt-4">
+    <h2 class="text-center">Products by {{ view.kwargs.name }}</h2><br><br><br><br><br><br><br><br>
+    {% if products.exists %}
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">${{ product.price }}</p>
+                    <a href="{{ product.get_absolute_url }}" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% else %}
+    <p>No products found for this brand.</p>
+    {% endif %}
+</div><br><br><br><br><br><br><br><br>
+
+{% endblock %}

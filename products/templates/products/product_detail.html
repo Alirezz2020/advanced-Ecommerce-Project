@@ -1,0 +1,65 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Product Detail Section -->
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.name }}">
+        </div>
+        <div class="col-md-6">
+            <h2>{{ product.name }}</h2>
+            <p class="text-muted">${{ product.price }}</p>
+            <p>{{ product.description }}</p>
+            <p>Stock: {{ product.stock }}</p>
+         <form action="{% url 'cart:add_to_cart' slug=product.slug %}" method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success">Add to Cart</button>
+</form>
+
+
+        </div>
+    </div>
+
+    <!-- Reviews Section -->
+    <div class="mt-5">
+        <h3>Reviews</h3>
+        {% if product.reviews.exists %}
+        <ul class="list-group">
+            {% for review in product.reviews.all %}
+            <li class="list-group-item">
+                <strong>{{ review.user.username }}</strong>: {{ review.comment }}
+                <span class="badge bg-primary">{{ review.rating }}/5</span>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No reviews yet.</p>
+        {% endif %}
+    </div>
+
+    <!-- Review Submission Form -->
+    {% if user.is_authenticated %}
+    <div class="mt-4">
+        <h3>Leave a Review</h3>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="rating">Rating (1-5):</label>
+                {{ review_form.rating }}
+            </div>
+            <div class="mb-3">
+                <label for="comment">Comment:</label>
+                {{ review_form.comment }}
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Review</button>
+        </form>
+    </div>
+    {% else %}
+    <p><a href="{% url 'accounts:login' %}" class="btn btn-primary">Log in</a> to leave a review.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

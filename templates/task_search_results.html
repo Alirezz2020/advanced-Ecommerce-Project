@@ -1,0 +1,52 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4">Search Results</h1>
+    {% if products %}
+        <div class="row">
+            {% for product in products %}
+                <div class="col-md-4">
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.description|truncatewords:20 }}</p>
+                            <a href="{% url 'products:product_detail' slug=product.slug %}" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        <nav class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if products.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?q={{ query }}&page=1">First</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?q={{ query }}&page={{ products.previous_page_number }}">Previous</a>
+                    </li>
+                {% endif %}
+
+                <li class="page-item disabled">
+                    <span class="page-link">Page {{ products.number }} of {{ products.paginator.num_pages }}</span>
+                </li>
+
+                {% if products.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?q={{ query }}&page={{ products.next_page_number }}">Next</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?q={{ query }}&page={{ products.paginator.num_pages }}">Last</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% else %}
+        <p class="text-muted">No products found matching your search.</p>
+    {% endif %}
+</div>
+{% endblock %}

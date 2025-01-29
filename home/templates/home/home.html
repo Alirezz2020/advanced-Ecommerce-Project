@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ShopEase - Your Shopping Destination{% endblock %}
+
+{% block content %}
+<header class="hero-section">
+    <div class="hero-content text-center">
+        <h1>Welcome to ShopEase</h1>
+        <p>Your favorite place to shop for electronics, fashion, and more!</p>
+        <a href="#categories" class="btn-primary">Explore Now</a>
+    </div>
+</header>
+
+<!-- Featured Products Section -->
+<div class="container mt-5">
+    <h2 class="text-center">Featured Products</h2>
+    <div id="featuredProductsCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            {% for product in featured_products %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="card h-100 mx-auto" style="width: 18rem;">
+                    <div class="card-img-container text-center">
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title text-truncate">{{ product.name }}</h5>
+                        <p class="card-text text-success font-weight-bold">${{ product.price }}</p>
+                        <a href="{{ product.get_absolute_url }}" class="btn btn-outline-primary btn-sm">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <!-- Carousel Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#featuredProductsCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+    <div id="featuredProductsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+
+        <button class="carousel-control-next" type="button" data-bs-target="#featuredProductsCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+
+
+<!-- Categories Section -->
+<div id="categories" class="container mt-5">
+    <h2 class="text-center">Shop by Category</h2>
+    <div class="row">
+        {% for category in categories %}
+        <div class="col-md-4 col-lg-3 mb-4 text-center">
+            <div class="card p-3 h-100">
+                <h5>{{ category.name }}</h5>
+                <a href="{% url 'products:category_list' category.slug %}" class="btn btn-secondary">Explore</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Popular Brands Section -->
+<div class="container mt-5">
+    <h2 class="text-center">Popular Brands</h2>
+    <div class="row">
+        {% for brand in brands %}
+        <div class="col-md-3 col-lg-2 mb-4 text-center">
+            <div class="card p-3 h-100">
+                <h6>{{ brand.name }}</h6>
+                <a href="{% url 'products:brand_list' brand.name %}" class="btn btn-outline-primary btn-sm">View Products</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div><br>
+    <hr><br>
+
+<div class="cta-section py-5 text-center text-white">
+    <div class="container">
+        <h2>Don't Miss Out on Exclusive Offers!</h2>
+        <p>Subscribe to our newsletter and be the first to know about discounts and new arrivals.</p>
+       <a href='{% url 'accounts:subscribe_newsletter' %}' class="btn btn-primary">Subscribe to our newsletter</a><br>
+    </div>
+</div><br>
+    <hr><br>
+</div>
+{% endblock %}
