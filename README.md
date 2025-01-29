@@ -57,3 +57,12 @@ For Gmail, you might need to generate an App Password if you have 2-step verific
 
 
 
+
+---
+
+### Key Notes:
+1. **Gmail for Password Reset**: The setup section covers configuring Gmail as the email backend for password reset functionality.
+2. **Payment Gateway**: The Stripe integration is included, but you can extend it with PayPal or other gateways.
+3. **Frontend Suggestions**: Encourage frontend improvements for a better UI/UX experience.
+
+Let me know if you'd like more details or adjustments!
