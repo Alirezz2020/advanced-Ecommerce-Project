@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Payment Successful!</h2>
+    <p>Thank you for your purchase. Your order is now confirmed.</p>
+
+    <h3>Order Summary</h3>
+    <p><strong>Order ID:</strong> {{ order.id }}</p>
+    <p><strong>Order Status:</strong> {% if order.paid %} ✅ Paid {% else %} ⏳ Pending {% endif %}</p>
+    <p><strong>Total Price:</strong> ${{ order.get_total_price }}</p>
+
+    <h3>Items Ordered</h3>
+    <ul>
+        {% for item in order.items.all %}
+            <li>{{ item.product.name }} x {{ item.quantity }} - ${{ item.get_cost }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'orders:order_detail' pk=order.id %}" class="btn btn-primary">View Order Details</a>
+</div>
+{% endblock %}

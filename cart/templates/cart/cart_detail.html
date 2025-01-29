@@ -47,9 +47,14 @@
             <h3>Total: ${{ cart.total_price }}</h3>
         </div>
          <!-- Order creation button -->
-    <a href="{% url 'orders:orders_create' %}">
-        <button class="btn btn-success">Proceed to Checkout</button>
-    </a>
+        <form action="{% url 'orders:order_create' %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Place Order</button>
+</form>
+
+{#    <a href="{% url 'orders:orders_create' %}">#}
+{#        <button class="btn btn-success">Proceed to Checkout</button>#}
+{#    </a>#}
     {% else %}
         <p>Your cart is empty.</p>
     {% endif %}

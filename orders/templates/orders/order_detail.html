@@ -1,0 +1,43 @@
+
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Order #{{ order.id }}</h2>
+
+    <p><strong>Status:</strong> {% if order.paid %} ✅ Paid {% else %} ⏳ Pending {% endif %}</p>
+    <p><strong>Order Date:</strong> {{ order.created|date:"F d, Y H:i" }}</p>
+
+    <h3>Items Ordered</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order.items.all %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.price }}</td>
+                <td>${{ item.get_cost }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p><strong>Total Price:</strong> ${{ order.get_total_price }}</p>
+
+{% if not order.paid %}
+    <a href="{% url 'orders:payment_process' pk=order.id %}" class="btn btn-success">Proceed to Payment</a>
+{% else %}
+    <p>Your payment has been completed. Thank you!</p>
+{% endif %}
+
+</div>
+{% endblock %}

@@ -52,7 +52,7 @@ class RemoveFromCartView(TemplateView):
 class UpdateCartView(TemplateView):
 
     def post(self, request, *args, **kwargs):
-        item_id = kwargs['item_id']
+        item_id = kwargs['pk']
         quantity = request.POST.get('quantity')
 
         cart_item = get_object_or_404(CartItem, id=item_id)
